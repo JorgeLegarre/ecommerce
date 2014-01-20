@@ -1,0 +1,19 @@
+package se.legarre.ecommerce.io;
+
+import se.legarre.ecommerce.model.CodValueModel;
+import se.legarre.ecommerce.service.EcommerceService;
+
+public class EcommerceIOConsole
+{
+
+	public void printStore(EcommerceService ecommerceService)
+	{
+		System.out.println("------------------\nInit STORE\n------------------");
+		for (CodValueModel productStock : ecommerceService.getListStoredProducts())
+		{
+			System.out.println(String.format("%s --> prodName: %s", productStock.toString(), ecommerceService.getProduct(productStock.getCod()).getName()));
+		}
+
+	}
+
+}

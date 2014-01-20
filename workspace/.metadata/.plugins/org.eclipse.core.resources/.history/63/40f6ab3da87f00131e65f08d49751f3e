@@ -1,0 +1,141 @@
+package se.legarre.ecommerce.model;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+public final class ClientModel extends UserModel
+{
+	private AddressModel deliveryAddress;
+	private AddressModel billingAddress;
+	private Map<String, DetailModel> shoppingCart;
+
+	public ClientModel(String username, String password, String name,
+			String lastName, String email, String telefon,
+			AddressModel deliveryAddress, AddressModel billingAddress)
+	{
+
+		super(username, password, name, lastName, email, telefon);
+
+		this.deliveryAddress = deliveryAddress;
+		this.billingAddress = billingAddress;
+
+		this.shoppingCart = new LinkedHashMap<String, DetailModel>();
+	}
+
+	public ClientModel(String username, String password, String name,
+			String lastName, String email, String telefon,
+			AddressModel deliveryAddress)
+	{
+		this(username, password, name, lastName, email, telefon, deliveryAddress, deliveryAddress);
+	}
+
+	public ClientModel(ClientModel other)
+	{
+		super(other);
+		this.deliveryAddress = new AddressModel(other.deliveryAddress);
+		this.billingAddress = new AddressModel(other.billingAddress);
+		
+		this.shoppingCart = new LinkedHashMap<String, DetailModel>();
+		for (DetailModel detail : other.shoppingCart.values())
+		{
+			addProductToShoppingCart(detail.getProductId(), detail.getQuantity(), detail.getUnitPrice());
+		}
+	}
+
+	public AddressModel getDeliveryAddress()
+	{
+		return deliveryAddress;
+	}
+
+	public void setDeliveryAddress(AddressModel deliveryAddress)
+	{
+		this.deliveryAddress = deliveryAddress;
+	}
+
+	public AddressModel getBillingAddress()
+	{
+		return billingAddress;
+	}
+
+	public void setBillingAddress(AddressModel billingAddress)
+	{
+		this.billingAddress = billingAddress;
+	}
+
+	public boolean addProductToShoppingCart(String productId, int quantity, double price)
+	{
+		if (quantity < 0)
+		{
+			return false;
+		}
+		int newQuantity = getProductQuantity(productId) + quantity;
+
+		setProductQuantity(productId, newQuantity, price);
+
+		return true;
+	}
+
+	public boolean subtractProductToShoppingCart(String productId, int quantity)
+	{
+		if (quantity < 0)
+		{
+			return false;
+		}
+		int newQuantity = getProductQuantity(productId) - quantity;
+
+		setProductQuantity(productId, newQuantity, getProductPrice(productId));
+
+		return true;
+	}
+
+	public int getProductQuantityFromShoppingCart(String productId)
+	{
+		return (shoppingCart.get(productId) == null) ? 0 : shoppingCart.get(productId).getQuantity();
+	}
+
+	public List<DetailModel> getListDetailsShoppingCart()
+	{
+		List<DetailModel> details = new ArrayList<DetailModel>();
+
+		for (DetailModel detail : shoppingCart.values())
+		{
+			details.add(new DetailModel(detail));
+		}
+
+		
+		return details;
+	}
+	
+	public int getProductQuantity(String productId)
+	{
+		return (shoppingCart.get(productId) == null) ? 0 : shoppingCart.get(productId).getQuantity();
+	}
+	
+	public void setProductQuantity(String productId, int newQuantity, double price)
+	{
+		if (newQuantity > 0)
+		{
+			shoppingCart.put(productId, new DetailModel(productId, newQuantity, price));
+		}
+		else
+		{
+			shoppingCart.remove(productId);
+		}
+	}
+
+	public void resetShoppingCart()
+	{
+		this.shoppingCart = new LinkedHashMap<String, DetailModel>();
+	}
+
+	@Override
+	public String toString()
+	{
+		return String
+				.format("%s, deliveryAddress: %s, billingAddress: %s, shoppingCart: %s",
+						super.toString(), deliveryAddress.toString(),
+						billingAddress.toString(), shoppingCart.toString());
+	}
+}

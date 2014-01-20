@@ -1,0 +1,18 @@
+package se.legarre.ecommerce.repository;
+
+import java.util.List;
+
+import se.legarre.ecommerce.model.user.CategoryModel;
+
+public interface CategoryRepository
+{
+	public CategoryModel saveCategory(CategoryModel category);
+
+	public List<CategoryModel> getAllCategories();
+
+	public CategoryModel getCategory(String categoryId);
+
+	public List<CategoryModel> searchCategoryByDesc(String categoryDesc);
+
+	public void removeCategory(String categoryId);
+}

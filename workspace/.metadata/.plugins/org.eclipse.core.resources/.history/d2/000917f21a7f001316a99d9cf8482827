@@ -1,0 +1,25 @@
+package se.legarre.ecommerce.repository.inMemoryImpl;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import se.legarre.ecommerce.model.OrderModel;
+import se.legarre.ecommerce.repository.OrderRepository;
+
+public class OrderInMemoryImpl implements OrderRepository
+{
+	private static int orderIdCounter = 1000;
+	
+	private Map<String, OrderModel> orders;
+	
+	public OrderInMemoryImpl()
+	{
+		orders = new LinkedHashMap<String, OrderModel>();
+	}
+
+	private String getNextOrderId()
+	{
+		orderIdCounter++;
+		return "O" + orderIdCounter;
+	}
+}

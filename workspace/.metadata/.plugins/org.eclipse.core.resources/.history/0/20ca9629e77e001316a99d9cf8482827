@@ -1,0 +1,91 @@
+package se.legarre.ecommerce.repository.inMemoryImpl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import se.legarre.ecommerce.model.CategoryModel;
+import se.legarre.ecommerce.repository.CategoryRepository;
+
+public final class CategoryInMemoryImpl implements CategoryRepository
+{
+	private static int idCounter = 1000;
+
+	Map<String, CategoryModel> categories;
+
+	public CategoryInMemoryImpl()
+	{
+		categories = new HashMap<String, CategoryModel>();
+	}
+
+	
+	@Override
+	public CategoryModel saveCategory(CategoryModel category)
+	{
+		if (isNewCategory(category))
+		{
+			category = new CategoryModel(getNextId(), category);
+		}
+
+		categories.put(category.getId(), category);
+		
+		//We return a new model because we don't want that a model.setXXX(...) change the object in our "InMemoryDB"
+		return new CategoryModel(category);
+	}
+
+	@Override
+	public List<CategoryModel> getAllCategories()
+	{
+		List<CategoryModel> listCategories = new ArrayList<CategoryModel>();
+		
+		//We make a copy of all the elements because we want to protect our "InMemoryDB" against changes of setXXX(...)
+		for(CategoryModel category : categories.values()){
+			listCategories.add(new CategoryModel(category));
+		}
+		
+		return listCategories;
+	}
+
+	@Override
+	public CategoryModel getCategory(String categoryId)
+	{
+		CategoryModel category = categories.get(categoryId);
+		
+		//We return a new model because we don't want that a model.setXXX(...) change the object in our "InMemoryDB"
+		return (category == null)?null:new CategoryModel(category);
+	}
+	
+	@Override
+	public List<CategoryModel> searchCategory(String categoryDesc)
+	{
+		if(categoryDesc == null) return null;
+		
+		CategoryModel returnCategory = null;
+		
+		for(CategoryModel category : getAllCategories()){
+			if(categoryDesc.equals(category)){
+				returnCategory = category;
+			}
+		}
+		return (returnCategory == null)?null:new CategoryModel(returnCategory);
+	}
+
+	@Override
+	public void removeCategory(String categoryId)
+	{
+		categories.remove(categoryId);
+	}
+
+	private String getNextId()
+	{
+		idCounter++;
+		return String.valueOf(idCounter);
+	}
+
+	private boolean isNewCategory(CategoryModel category)
+	{
+		return CategoryModel.DEFAULT_ID.equals(category.getId());
+	}
+
+}

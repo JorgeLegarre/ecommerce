@@ -1,0 +1,237 @@
+package se.legarre.ecommerce;
+
+import se.legarre.ecommerce.model.AddressModel;
+import se.legarre.ecommerce.model.CategoryModel;
+import se.legarre.ecommerce.model.ClientModel;
+import se.legarre.ecommerce.model.ProductIdQuantityModel;
+import se.legarre.ecommerce.model.DetailModel;
+import se.legarre.ecommerce.model.EmployeeModel;
+import se.legarre.ecommerce.model.OrderModel;
+import se.legarre.ecommerce.model.ProductModel;
+import se.legarre.ecommerce.model.UserModel;
+import se.legarre.ecommerce.service.EcommerceService;
+
+public final class Ecommerce
+{
+	EcommerceService ecommerceService;
+
+	public Ecommerce()
+	{
+		ecommerceService = new EcommerceService();
+	}
+
+	private Ecommerce createCategories()
+	{
+		// ------------------
+		// CATEGORIES
+		// ------------------
+		// Photography
+		// |--Cameras
+		// |--Flashes
+		// Tablets
+		// |--Android
+		// |--Ipad
+
+		// Photography and subcategories
+		String fotographyID = ecommerceService.saveCategory(new CategoryModel("Photography"));
+		ecommerceService.saveCategory(new CategoryModel("Cameras", fotographyID));
+		ecommerceService.saveCategory(new CategoryModel("Lenses", fotographyID));
+
+		// tablets and subcategories
+		String tabletsId = ecommerceService.saveCategory(new CategoryModel("Tablets"));
+		ecommerceService.saveCategory(new CategoryModel("Android", tabletsId));
+		ecommerceService.saveCategory(new CategoryModel("Ipad", tabletsId));
+
+		System.out.println("------------------\nInit CATEGORIES\n------------------");
+		for (CategoryModel category : ecommerceService.getAllCategories())
+		{
+			System.out.println(category);
+		}
+
+		return this;
+	}
+
+	private Ecommerce createProducts()
+	{
+		// ------------------
+		// PRODUCTS
+		// ------------------
+		// Fujifilm X-E1 --> Camera
+		// Fujifilm X-E2 --> Camera
+		// Fujinon XF 35mm f1.4 --> Lens
+		// Samsung Galaxy Note 10.1 --> Tablet
+
+		String categoryId = ecommerceService.searchCategoryByDesc("Cameras").get(0).getId();
+		ecommerceService.saveProduct(new ProductModel("Fujifilm X-E1", "Fantastic camera with APSC sensor of 16MP", categoryId, 8888.8));
+		ecommerceService.saveProduct(new ProductModel("Fujifilm X-E2", "New version and renoved version of the X-E1. Now with a faster AF", categoryId, 9999.9));
+
+		categoryId = ecommerceService.searchCategoryByDesc("Lenses").get(0).getId();
+		ecommerceService.saveProduct(new ProductModel("Fujinon XF 35mm f1.4", "Ultra-fast lens with a excelent IQ even open wide", categoryId, 4500));
+
+		categoryId = ecommerceService.searchCategoryByDesc("Android").get(0).getId();
+		ecommerceService.saveProduct(new ProductModel("Samsung Galaxy Note 10.1", "Last samsung tablet", categoryId, 3000));
+
+		System.out.println("------------------\nInit PRODUCTS\n------------------");
+		for (ProductModel product : ecommerceService.getAllProducts())
+		{
+			System.out.println(product);
+		}
+
+		return this;
+	}
+
+	private Ecommerce createStore()
+	{
+		// ------------------
+		// STORE
+		// ------------------
+		// We create a store of all products in our DB, we don't know the order
+		// of the
+		// getAllProducts so we can't know exactly which quantity is initialized
+		// for every product, but quantities are going to be 2, 4, 6, 8, ...
+		int i = 1;
+		for (ProductModel product : ecommerceService.getAllProducts())
+		{
+			ecommerceService.addProductQuantity(product.getId(), i * 2);
+			i++;
+		}
+
+		System.out.println("------------------\nInit STORE\n------------------");
+		printStore();
+
+		return this;
+	}
+
+	private void printStore()
+	{
+		for (ProductIdQuantityModel productStock : ecommerceService.getListStoredProducts())
+		{
+			System.out.println(String.format("%s --> prodName: %s", productStock.toString(), ecommerceService.getProduct(productStock.getProductId()).getName()));
+		}
+	}
+
+	private Ecommerce createUsers()
+	{
+		// ------------------
+		// Admin
+		// ------------------
+		ecommerceService.saveUser(new EmployeeModel("jlegarre", "jlegarre1", "Jorge", "Legarre Peris", "enkidugan@gmail.com", "0735560243", true));
+
+		// ------------------
+		// Clients
+		// ------------------
+		ecommerceService.saveUser(new ClientModel("sdueñas", "sdueñas1", "Salvador", "Dueñas Solis", "sdueñas@gmail.com", "0737654321", new AddressModel(
+				"Dalbobranten 13",
+				"c/o: Europe band", 12868, "Sköndal", "Stockholm", "Sverige")));
+		ecommerceService.saveUser(new ClientModel("bsoler", "bsoler1", "Elisabet", "Soler", "bsoler@gmail.com", "0731234567", new AddressModel("Dalbobranten 17", "",
+				12868,
+				"Sköndal", "Stockholm", "Sverige")));
+
+		System.out.println("------------------\nInit CLIENTS\n------------------");
+		for (UserModel user : ecommerceService.getAllUsers())
+		{
+			System.out.println(user.toString());
+		}
+		return this;
+	}
+
+	private ClientModel clientPrepareShoppingCart(String clientUserName, int quantityProduct1)
+	{
+		ClientModel client = (ClientModel) ecommerceService.getUser(clientUserName);
+
+		// product 1
+		ProductModel product = ecommerceService.searchProductByName("Fujifilm X-E1").get(0);
+		String productId = product.getId();
+		double productPrice = product.getPrice();
+
+		client.getShoppingCart().addProductQuantity(productId, quantityProduct1, productPrice);
+
+		// product 2
+		product = ecommerceService.searchProductByName("Fujinon XF 35mm f1.4").get(0);
+		productId = product.getId();
+		productPrice = product.getPrice();
+
+		client.getShoppingCart().addProductQuantity(productId, 2, productPrice);
+
+		System.out.println("------------------\nClient prepare his shoppingCart:");
+		int i = 1;
+		for (DetailModel entryInShoppingCart : client.getShoppingCart().getListDetails())
+		{
+			System.out.println(String.format("Entry: %s --> %s", i, entryInShoppingCart));
+			i++;
+		}
+
+		return client;
+	}
+
+	private boolean placeOrder(ClientModel client)
+	{
+		boolean orderPlaced = ecommerceService.placeOrder(new OrderModel(client.getUsername(), client.getShoppingCart().getListDetails()));
+		System.out.println("\n------------------\nTry to place the order...");
+		if (orderPlaced)
+		{
+			System.out.println("\nResult of placeOrder: Order realized\n\nOrder-validation with succed result was Satisfactory");
+		}
+		else
+		{
+			System.out
+					.println("\nResult of placeOrder: Order not realized, we don't have enough stock of some products.\nProducts with Not enough Stock (current stock visualized):");
+
+			for (DetailModel productStock : ecommerceService.getProductsWithoutEnoughStock(client.getShoppingCart().getListDetails()))
+			{
+				System.out.println(productStock);
+			}
+			System.out.println("\nOrder-validation with failed result was Satisfactory\n");
+		}
+
+		return orderPlaced;
+	}
+
+	private void printOrders()
+	{
+		System.out.println("\n---------------------\nOrders stored in BBDD:");
+		for (OrderModel order : ecommerceService.getAllOrders())
+		{
+			System.out.println(order);
+		}
+
+	}
+
+	public static void main(String[] args) throws CloneNotSupportedException
+	{
+		System.out.println("****************************\nInitialization InMemory BBDD\n****************************");
+		// We populate the structure elements of our DB
+		Ecommerce ecommerce =
+				new Ecommerce()
+						.createCategories()
+						.createProducts()
+						.createStore()
+						.createUsers();
+		System.out.println("****************\nBBDD initialized\n****************\n");
+		System.out.println("******************\nStart dynamic Test\n******************");
+
+		// A user fill his shoppingCart with too much products(we dont have
+		// enough in stock)
+		ClientModel client = ecommerce.clientPrepareShoppingCart("sdueñas", 20);
+		// we try to place the order
+		ecommerce.placeOrder(client);
+
+		// we start again with the shoppingCart
+		client.getShoppingCart().reset();
+
+		System.out.println("** Next try **");
+		// A user fill his shoppingCart with a reasonable quantity
+		client = ecommerce.clientPrepareShoppingCart("sdueñas", 1);
+		// we try to place the order
+		ecommerce.placeOrder(client);
+
+		// print all orders in DB
+		ecommerce.printOrders();
+
+		System.out.println("\n------------------\nSTORE BBDD visualization efter orders\n------------------");
+		ecommerce.printStore();
+		System.out.println("Products substracted from BBDD. Test satisfactory\n------------------");
+		System.out.println("******************\nEnd dynamic Test\n*******************\n");
+
+	}
+}

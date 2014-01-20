@@ -1,0 +1,52 @@
+package se.legarre.ecommerce.model;
+
+public final class DetailModel extends CodValueModel
+{
+	private int price;
+
+	public DetailModel(String cod, Integer value, Integer price)
+	{
+		super(cod, value);
+		this.price = price;
+	}
+	
+	public DetailModel(DetailModel other){
+		super(other);
+		this.price = other.price;
+	}
+	
+	public int getPrice()
+	{
+		return price;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + price;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj) return true;
+		if (!super.equals(obj)) return false;
+		if (getClass() != obj.getClass()) return false;
+		DetailModel other = (DetailModel) obj;
+		if (price != other.price) return false;
+		if(!super.equals(obj)) return false;
+		return true;
+	}
+	
+	@Override
+	public String toString()
+	{
+		// TODO Auto-generated method stub
+		return String.format("%s, price: %s", super.toString(),price);
+	}
+
+	
+}

@@ -1,0 +1,18 @@
+package se.legarre.ecommerce.repository;
+
+import java.util.List;
+
+import se.legarre.ecommerce.model.OrderModel;
+
+public interface OrderRepository
+{
+
+	public OrderModel saveOrder(OrderModel order);
+
+	public List<OrderModel> getAllOrders();
+
+	public OrderModel getOrder(String orderId);
+
+	public void removeOrder(String orderId);
+
+}

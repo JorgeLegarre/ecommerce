@@ -1,0 +1,42 @@
+package se.legarre.ecommerce.service;
+
+import java.util.List;
+
+import se.legarre.ecommerce.model.CategoryModel;
+import se.legarre.ecommerce.model.ProductModel;
+import se.legarre.ecommerce.repository.ProductRepository;
+
+public final class ProductService
+{
+	private ProductRepository productRepository;
+
+	public ProductService(ProductRepository productRepository)
+	{
+		this.productRepository = productRepository;
+	}
+
+	public ProductModel saveProduct(ProductModel product)
+	{
+		return productRepository.saveProduct(product);
+	}
+
+	public List<ProductModel> getAllProducts()
+	{
+		return productRepository.getAllProducts();
+	}
+
+	public ProductModel getProduct(String productId)
+	{
+		return productRepository.getProduct(productId);
+	}
+	
+	public List<ProductModel> searchProductByDesc(String desc)
+	{
+		return productRepository.searchProductByDesc(desc);
+	}
+
+	public void removeProduct(String productId)
+	{
+		productRepository.removeProduct(productId);
+	}
+}

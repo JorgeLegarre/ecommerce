@@ -1,0 +1,68 @@
+package se.legarre.ecommerce.repository.inMemoryImpl;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import se.legarre.ecommerce.model.OrderModel;
+import se.legarre.ecommerce.repository.OrderRepository;
+
+public class OrderInMemoryImpl implements OrderRepository
+{
+	private static int orderIdCounter = 1000;
+
+	private Map<String, OrderModel> orders;
+
+	public OrderInMemoryImpl()
+	{
+		orders = new LinkedHashMap<String, OrderModel>();
+	}
+
+	public OrderModel saveOrder(OrderModel order)
+	{
+		if (isNewOrder(order))
+		{
+			order = new OrderModel(getNextId(), order);
+		}
+
+		// we want to protect that the object send and stored will be change
+		// but the model.setXXX(...)
+		orders.put(order.getOrderId(), new OrderModel(order));
+
+		// We return a new model because we don't want that a model.setXXX(...)
+		// change the object in our "InMemoryDB"
+		return new OrderModel(order);
+	}
+
+	public List<OrderModel> getAllOrders()
+	{
+		List<OrderModel> listOrders = new ArrayList<OrderModel>();
+
+		// We make a copy of all the elements because we want to protect our
+		// "InMemoryDB" against changes of setXXX(...)
+		for (OrderModel order : orders.values())
+		{
+			listOrders.add(new OrderModel(order));
+		}
+		
+		return listOrders;
+	}
+	
+	public OrderModel getOrder(String orderId){
+		OrderModel order = orders.get(orderId);
+		
+		
+	}
+
+	private boolean isNewOrder(OrderModel order)
+	{
+		return OrderModel.DEFAULT_ID.equals(order.getOrderId());
+	}
+
+	private String getNextId()
+	{
+		orderIdCounter++;
+		return "O" + orderIdCounter;
+	}
+}

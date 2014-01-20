@@ -1,0 +1,6 @@
+package se.legarre.ecommerce.service;
+
+public final class WarehouseService
+{
+
+}

@@ -1,0 +1,8 @@
+package se.legarre.ecommerce.service;
+
+import se.legarre.ecommerce.repository.ProductRepository;
+
+public final class CategoryService
+{
+	private CategoryRepository productRepository;
+}

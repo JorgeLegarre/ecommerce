@@ -1,0 +1,13 @@
+package se.legarre.ecommerce.service;
+
+import se.legarre.ecommerce.repository.StoreRepository;
+
+public final class StoreService
+{
+	private StoreRepository wareHouseRepository;
+
+	public StoreService(StoreRepository wareHouseRepository)
+	{
+		this.wareHouseRepository = wareHouseRepository;
+	}
+}

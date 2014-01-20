@@ -1,0 +1,16 @@
+package se.legarre.ecommerce.service;
+
+import se.legarre.ecommerce.repository.CategoryRepository;
+
+public final class CategoryService
+{
+	private CategoryRepository categoryRepository;
+	
+	public CategoryService(CategoryRepository categoryRepository){
+		this.categoryRepository = categoryRepository;
+	}
+	
+	public CategoryModel saveCategory(CategoryModel category){
+		categoryRepository.saveCategory(category);
+	}
+}

@@ -1,0 +1,152 @@
+package se.legarre.ecommerce.model;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+public final class ShoppingCartModel
+{
+
+	private Map<String, DetailModel> shoppingCart;
+
+	public ShoppingCartModel()
+	{
+		reset();
+	}
+
+	/**
+	 * Void completely the shoppingCart
+	 */
+	public void reset()
+	{
+		this.shoppingCart = new LinkedHashMap<String, DetailModel>();
+	}
+
+	/**
+	 * If product not exist previously: Insert a product with a determined
+	 * quantity. Else: add the quantity to the stored quantity. Note: if the
+	 * final quantity is 0 the product is removed from shoppingCart.
+	 * 
+	 * @param product
+	 * @param quantity
+	 *            value to add
+	 * @param price
+	 *            price of a individual product
+	 * @return [true: operation realized | false: quantity is negative,
+	 *         operation is not realized]
+	 */
+	public boolean addProductQuantity(String productId, int quantity, double price)
+	{
+		if (quantity < 0)
+		{
+			return false;
+		}
+		int newQuantity = getProductQuantity(productId) + quantity;
+
+		setProductQuantity(productId, newQuantity, price);
+
+		return true;
+	}
+
+	/**
+	 * Subtract the product quantity. Note: if the final quantity is <= 0, the
+	 * product is removed from shoppingCart
+	 * 
+	 * @param productId
+	 * @param quantity
+	 *            value to subtract
+	 * @return [true: operation realized | false: quantity is negative,
+	 *         operation is not realized]
+	 */
+	public boolean subtractProductQuantity(String productId, int quantity)
+	{
+		if (quantity < 0)
+		{
+			return false;
+		}
+		int newQuantity = getProductQuantity(productId) - quantity;
+
+		setProductQuantity(productId, newQuantity);
+
+		return true;
+	}
+
+	/**
+	 * If product not exist previously: Insert a product with a determined
+	 * quantity. else: set the stored quantity to newQuantity. Note: if
+	 * newQuantity <= 0 the product is removed from shoppingCart
+	 * 
+	 * @param product
+	 * @param newQuantity
+	 */
+	public void setProductQuantity(String productId, int newQuantity, double price)
+	{
+		if (newQuantity > 0)
+		{
+			shoppingCart.put(productId, new DetailModel(productId, newQuantity, price));
+		}
+		else
+		{
+			shoppingCart.remove(productId);
+		}
+	}
+
+	/**
+	 * Gives the product quantity in the shoppingCart or 0 if product is not in
+	 * the shoppingCart
+	 * 
+	 * @param product
+	 * @return
+	 */
+	public int getProductQuantity(String productId)
+	{
+		return (shoppingCart.get(productId) == null) ? 0 : shoppingCart.get(productId).getQuantity();
+	}
+
+	/**
+	 * Gives the price of a product unit the shoppingCArt
+	 * 
+	 * @param productId
+	 * @return
+	 */
+	public double getProductPrice(String productId)
+	{
+		return (shoppingCart.get(productId) == null) ? 0 : shoppingCart.get(productId).getUnitPrice();
+	}
+
+	/**
+	 * Return a list of of all the products in shoppingCart, it comes like a
+	 * List of CodValueModel (cod=productId, value=quantity)
+	 * 
+	 * @return
+	 */
+	public List<DetailModel> getListProductsQuanties()
+	{
+		return new ArrayList<DetailModel>(shoppingCart.values());
+	}
+
+	@Override
+	public String toString()
+	{
+		StringBuilder string = new StringBuilder("Products: {");
+		boolean isNotFirst = false;
+		for (DetailModel product : shoppingCart.values())
+		{
+			if (isNotFirst)
+			{
+				string.append(", ");
+				isNotFirst = true;
+			}
+			string.append("[");
+			string.append("productId: ");
+			string.append(product.getCod());
+			string.append(", Quantity: ");
+			string.append(product.getValue());
+			string.append("]");
+		}
+		string.append("}");
+
+		return string.toString();
+	}
+}

@@ -1,0 +1,99 @@
+package se.legarre.ecommerce.repository.inMemoryImpl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import se.legarre.ecommerce.model.CodValueModel;
+import se.legarre.ecommerce.repository.StoreRepository;
+
+public final class StoreInMemoryImpl implements StoreRepository
+{
+	private Map<String, CodValueModel> store;
+
+	public StoreInMemoryImpl()
+	{
+		store = new HashMap<String, CodValueModel>();
+	}
+
+	/**
+	 * Add the quantity to the current product stock OR initialized it
+	 * 
+	 * @param productId
+	 * @param quantity
+	 *            positive value to add
+	 * @return [true: operation realized | false: quantity is negative,
+	 *         operation not realized]
+	 */
+	public boolean addProductQuantity(String productId, int quantity)
+	{
+		if (quantity < 0)
+		{
+			return false;
+		}
+
+		int newQuantity = getProductQuantity(productId) + quantity;
+
+		store.put(productId, new CodValueModel(productId, newQuantity));
+
+		return true;
+	}
+
+	/**
+	 * Subtract the quantity to the current product stock.
+	 * 
+	 * @param productId
+	 * @param quantity
+	 *            positive value to subtract // * @return [true: operation
+	 *            realized | false: [negative quantity | product not found |
+	 *            there are not enough stock to subtract]
+	 */
+	public boolean subtractProductQuantity(String productId, int quantity)
+	{
+		if ((quantity < 0) || (store.get(productId) == null))
+		{
+			return false;
+		}
+
+		int newQuantity = getProductQuantity(productId) + quantity;
+
+		if (newQuantity < 0)
+		{
+			return false;
+		}
+
+		store.put(productId, new CodValueModel(productId, newQuantity));
+
+		return true;
+	}
+
+	public int getProductQuantity(String productId)
+	{
+		return (store.get(productId) == null) ? 0 : store.get(productId).getValue();
+	}
+
+	public int removeProductQuantity(String cod, int productsToRemove)
+	{
+		if (stock.isCodInMap(cod) && (productsToRemove > 0))
+		{
+			int removedProducts = 0;
+
+			int productStock = getProductQuantity(cod);
+
+			removedProducts = (productStock >= productsToRemove) ? productsToRemove
+					: productStock;
+			productStock -= removedProducts;
+
+			stock.setValue(new CodValueModel(cod, productStock));
+
+			return removedProducts;
+		}
+
+		return -1;
+	}
+
+	public List<CodValueModel> getListProductsQuanties()
+	{
+		return stock.getListCodValues();
+	}
+}

@@ -1,0 +1,6 @@
+package se.legarre.ecommerce.repository.inMemoryImpl;
+
+public class OrderInMemoryImpl
+{
+
+}

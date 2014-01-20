@@ -1,0 +1,76 @@
+package se.legarre.ecommerce.repository.inMemoryImpl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import se.legarre.ecommerce.model.ProductModel;
+import se.legarre.ecommerce.repository.ProductRepository;
+
+public final class ProductInMemoryImpl implements ProductRepository
+{
+	private static int idCounter = 1000;
+
+	private Map<String, ProductModel> products;
+
+	public ProductInMemoryImpl()
+	{
+		products = new HashMap<String, ProductModel>();
+	}
+
+	@Override
+	public ProductModel saveProduct(ProductModel product)
+	{
+		if (isNewProduct(product.getId()))
+		{
+			product = new ProductModel(getNextId(), product);
+		}
+
+		products.put(product.getId(), product);
+
+		// We return a new model because we don't want that a model.setXXX(...)
+		// change the object in our "InMemoryDB"
+		return new ProductModel(product);
+	}
+
+	@Override
+	public List<ProductModel> getAllProducts()
+	{
+		List<ProductModel> listProducts = new ArrayList<ProductModel>();
+		for (ProductModel product : products.values())
+		{
+			listProducts.add(new ProductModel(product));
+		}
+
+		return listProducts;
+	}
+
+	@Override
+	public ProductModel getProduct(String productId)
+	{
+		return new ProductModel(products.get(productId));
+	}
+
+	@Override
+	public boolean removeProduct(String productId)
+	{
+		if (products.containsKey(productId))
+		{
+			products.remove(productId);
+			return true;
+		}
+		return false;
+	}
+
+	private String getNextId()
+	{
+		idCounter++;
+		return String.valueOf(idCounter);
+	}
+
+	private boolean isNewProduct(ProductModel product)
+	{
+		return ProductModel.DEFAULT_ID.equals(product.getId());
+	}
+}

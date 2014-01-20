@@ -1,0 +1,107 @@
+package se.legarre.ecommerce.model;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+public final class ShoppingCartModel
+{
+
+	private Map<String, CodValueModel> shoppingCart;
+
+	public ShoppingCartModel()
+	{
+		reset();
+	}
+	
+	/**
+	 * Void completely the shoppingCart
+	 */
+	public void reset()
+	{
+		this.shoppingCart = new LinkedHashMap<String, CodValueModel>();
+	}
+
+	/**
+	 * If product not exist previously: Insert a product with a determined
+	 * quantity. Else: add/deduct the quantity to the stored quantity. Note: if
+	 * the final quantity is <=0 the product is removed from shoppingCart.
+	 * 
+	 * @param product
+	 * @param quantityToAdd
+	 */
+	public void addProductQuantity(ProductModel product, int quantityToAdd)
+	{
+		int newQuantity = getProductQuantity(product) + quantityToAdd;
+
+		setProductQuantity(product, newQuantity);
+	}
+
+	/**
+	 * If product not exist previously: Insert a product with a determined
+	 * quantity. else: set the stored quantity to newQuantity. Note: if
+	 * newQuantity <= 0 the product is removed from shoppingCart
+	 * 
+	 * @param product
+	 * @param newQuantity
+	 */
+	public void setProductQuantity(ProductModel product, int newQuantity)
+	{
+		if (newQuantity > 0)
+		{
+			shoppingCart.put(product.getId(), new CodValueModel(
+					product.getId(), newQuantity));
+		}
+		else
+		{
+			shoppingCart.remove(product.getId());
+		}
+	}
+
+	/**
+	 * Gives the product quantity in the shoppingCart or 0 if product is not in
+	 * the shoppingCart
+	 * 
+	 * @param product
+	 * @return
+	 */
+	public int getProductQuantity(ProductModel product)
+	{
+		return (shoppingCart.get(product.getId()) == null) ? 0 : shoppingCart
+				.get(product.getId()).getValue();
+	}
+
+	/**
+	 * Return a list of of all the products in shoppingCart, it comes like a
+	 * List of CodValueModel (cod=productId, value=quantity)
+	 * 
+	 * @return
+	 */
+	public List<CodValueModel> getListProductsQuanties()
+	{
+		return new ArrayList<CodValueModel>(shoppingCart.values());
+	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder string = new StringBuilder("Products: {");
+		boolean isNotFirst = false;
+		for(CodValueModel product : shoppingCart.values()){
+			if(isNotFirst){
+				string.append(", ");
+				isNotFirst=true;
+			}
+			string.append("[");
+			string.append("productId: ");
+			string.append(product.getCod());
+			string.append("Quantity: ");
+			string.append(product.getValue());
+			string.append("]");
+		}
+		string.append("}");
+		
+		return string.toString();
+	}
+}

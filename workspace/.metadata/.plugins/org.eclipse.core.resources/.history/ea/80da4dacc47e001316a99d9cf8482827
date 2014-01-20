@@ -1,0 +1,6 @@
+package se.legarre.ecommerce.model;
+
+public final class Category
+{
+
+}

@@ -1,0 +1,53 @@
+package se.legarre.ecommerce.model;
+
+public class DetailModel
+{
+	private String cod;
+	private Integer value;
+
+	public DetailModel(String cod, Integer value)
+	{
+		this.cod = cod;
+		this.value = value;
+	}
+
+	public DetailModel(DetailModel other)
+	{
+		this.cod = other.cod;
+		this.value = other.value;
+	}
+
+	public String getCod()
+	{
+		return cod;
+	}
+
+	public Integer getValue()
+	{
+		return value;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj) return true;
+		if (obj instanceof DetailModel)
+		{
+			DetailModel other = (DetailModel) obj;
+			return this.cod.equals(other.cod) && (this.value == other.value);
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return 41 * this.cod.hashCode() * this.value;
+	}
+
+	@Override
+	public String toString()
+	{
+		return String.format("Cod: %s, Value: %s", cod, value);
+	}
+}

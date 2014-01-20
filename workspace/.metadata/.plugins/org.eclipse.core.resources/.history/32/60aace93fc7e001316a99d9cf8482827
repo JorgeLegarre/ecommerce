@@ -1,0 +1,6 @@
+package se.legarre.ecommerce.repository;
+
+public interface StoreRepository
+{
+
+}

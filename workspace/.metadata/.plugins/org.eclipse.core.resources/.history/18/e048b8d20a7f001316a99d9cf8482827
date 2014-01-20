@@ -1,0 +1,60 @@
+package se.legarre.ecommerce.repository.inMemoryImpl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import se.legarre.ecommerce.model.ClientModel;
+import se.legarre.ecommerce.model.EmployeeModel;
+import se.legarre.ecommerce.model.UserModel;
+import se.legarre.ecommerce.repository.UserRepository;
+
+public class UserInMemoryImpl implements UserRepository
+{
+
+	private Map<String, UserModel> users;
+
+	public UserInMemoryImpl()
+	{
+		users = new HashMap<String, UserModel>();
+	}
+
+	@Override
+	public void saveUser(UserModel user)
+	{
+		UserModel newUser = null;
+		
+		if(user instanceof ClientModel){
+			newUser = new ClientModel(user);
+		}else{
+			newUser = new EmployeeModel(user);
+		}
+		
+		users.put(user.getUsername(), newUser);
+	}
+
+	@Override
+	public List<UserModel> getAllUsers()
+	{
+		return new ArrayList<UserModel>(users.values());
+	}
+
+	@Override
+	public UserModel getUser(String username)
+	{
+		return users.get(username);
+	}
+
+	@Override
+	public boolean removeUser(String username)
+	{
+		if (users.containsKey(username))
+		{
+			users.remove(username);
+			return true;
+		}
+		return false;
+	}
+
+}

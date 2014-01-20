@@ -1,0 +1,151 @@
+package se.legarre.ecommerce.model;
+
+public final class AddressModel
+{
+	private String streetLine1;
+	private String streetLine2;
+	private int postalCode;
+	private String area;
+	private String city;
+	private String country;
+
+	public AddressModel(String streetLine1, String streetLine2, int postalCode,
+			String area, String city, String country)
+	{
+		this.streetLine1 = streetLine1;
+		this.streetLine2 = streetLine2;
+		this.postalCode = postalCode;
+		this.area = area;
+		this.city = city;
+		this.country = country;
+	}
+
+	public String getStreetLine1()
+	{
+		return streetLine1;
+	}
+
+	public void setStreetLine1(String streetLine1)
+	{
+		this.streetLine1 = streetLine1;
+	}
+
+	public String getStreetLine2()
+	{
+		return streetLine2;
+	}
+
+	public void setStreetLine2(String streetLine2)
+	{
+		this.streetLine2 = streetLine2;
+	}
+
+	public int getPostalCode()
+	{
+		return postalCode;
+	}
+
+	public void setPostalCode(int postalCode)
+	{
+		this.postalCode = postalCode;
+	}
+
+	public String getArea()
+	{
+		return area;
+	}
+
+	public void setArea(String area)
+	{
+		this.area = area;
+	}
+
+	public String getCity()
+	{
+		return city;
+	}
+
+	public void setCity(String city)
+	{
+		this.city = city;
+	}
+
+	public String getCountry()
+	{
+		return country;
+	}
+
+	public void setCountry(String country)
+	{
+		this.country = country;
+	}
+
+	/**
+	 * ECLIPSE generated
+	 * 
+	 * @param obj
+	 * @return
+	 */
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
+		AddressModel other = (AddressModel) obj;
+		if (area == null)
+		{
+			if (other.area != null) return false;
+		}
+		else if (!area.equals(other.area)) return false;
+		if (city == null)
+		{
+			if (other.city != null) return false;
+		}
+		else if (!city.equals(other.city)) return false;
+		if (country == null)
+		{
+			if (other.country != null) return false;
+		}
+		else if (!country.equals(other.country)) return false;
+		if (postalCode != other.postalCode) return false;
+		if (streetLine1 == null)
+		{
+			if (other.streetLine1 != null) return false;
+		}
+		else if (!streetLine1.equals(other.streetLine1)) return false;
+		if (streetLine2 == null)
+		{
+			if (other.streetLine2 != null) return false;
+		}
+		else if (!streetLine2.equals(other.streetLine2)) return false;
+		return true;
+	}
+
+	/**
+	 * ECLIPSE generated
+	 * 
+	 * @return
+	 */
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((area == null) ? 0 : area.hashCode());
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result + ((country == null) ? 0 : country.hashCode());
+		result = prime * result + postalCode;
+		result = prime * result + ((streetLine1 == null) ? 0 : streetLine1.hashCode());
+		result = prime * result + ((streetLine2 == null) ? 0 : streetLine2.hashCode());
+		return result;
+	}
+
+	@Override
+	public String toString()
+	{
+		return String
+				.format("streetLine1: %s, streetLine2: %s, postalCode: %s, area: %s, city: %s, country: %s",
+						streetLine1, streetLine2, postalCode, area, city, country);
+	}
+}

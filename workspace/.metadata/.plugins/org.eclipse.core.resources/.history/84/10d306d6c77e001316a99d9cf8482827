@@ -1,0 +1,45 @@
+package se.legarre.ecommerce.model;
+
+public final class CategoryModel
+{
+	public static final String DEFAULT_ID = "";
+	public static final String DEFAULT_ROOT = "";
+
+	private String id;
+	private String desc;
+	private String rootCategory;
+
+	public CategoryModel(String id, String desc, String rootCategory)
+	{
+		this.id = id;
+		this.desc = desc;
+		this.rootCategory = rootCategory;
+	}
+
+	public CategoryModel(String desc, String rootCategory)
+	{
+		this(DEFAULT_ID, desc, rootCategory);
+
+	}
+
+	public CategoryModel(String desc)
+	{
+		this(DEFAULT_ID, desc, DEFAULT_ROOT);
+	}
+
+	public String getId()
+	{
+		return id;
+	}
+
+	public String getDesc()
+	{
+		return desc;
+	}
+
+	public String getRootCategory()
+	{
+		return rootCategory;
+	}
+
+}

@@ -1,0 +1,36 @@
+package se.legarre.ecommerce.service;
+
+import java.util.List;
+
+import se.legarre.ecommerce.model.user.CodValueModel;
+import se.legarre.ecommerce.repository.StoreRepository;
+
+public final class StoreService
+{
+	private StoreRepository storeRepository;
+
+	public StoreService(StoreRepository wareHouseRepository)
+	{
+		this.storeRepository = wareHouseRepository;
+	}
+
+	public boolean addProductQuantity(String productId, int quantity)
+	{
+		return storeRepository.addProductQuantity(productId, quantity);
+	}
+
+	public boolean subtractProductQuantity(String productId, int quantity)
+	{
+		return storeRepository.subtractProductQuantity(productId, quantity);
+	}
+
+	public int getProductQuantity(String productId)
+	{
+		return storeRepository.getProductQuantity(productId);
+	}
+
+	public List<CodValueModel> getListStoredProducts()
+	{
+		return storeRepository.getListStoredProducts();
+	}
+}

@@ -1,0 +1,36 @@
+package se.legarre.ecommerce.service;
+
+import java.util.List;
+
+import se.legarre.ecommerce.model.OrderModel;
+import se.legarre.ecommerce.repository.OrderRepository;
+
+public final class OrderService
+{
+	private OrderRepository orderRepository;
+
+	public OrderService(OrderRepository orderRepository)
+	{
+		this.orderRepository = orderRepository;
+	}
+
+	public String placeOrder(OrderModel order)
+	{
+		return orderRepository.placeOrder(order);
+	}
+
+	public List<OrderModel> getAllOrders()
+	{
+		return orderRepository.getAllOrders();
+	}
+
+	public OrderModel getOrder(String orderId)
+	{
+		return orderRepository.getOrder(orderId);
+	}
+
+	public void removeOrder(String orderId)
+	{
+		orderRepository.removeOrder(orderId);
+	}
+}

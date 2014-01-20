@@ -1,0 +1,32 @@
+1389035610542	Delete elements
+1389093560857	Delete element
+1389095324828	Encapsulate field 'root'
+1389095330830	Encapsulate field 'name'
+1389095480852	Delete element
+1389101246601	Encapsulate field 'streetLine1'
+1389101253886	Encapsulate field 'streetLine2'
+1389101486933	Encapsulate field 'password'
+1389101686770	Encapsulate field 'name'
+1389101691368	Encapsulate field 'lastName'
+1389102073013	Delete element
+1389344680660	Delete element
+1389348083381	Delete element
+1389348227446	Encapsulate field 'billingAddress'
+1389348335282	Rename type 'Admin'
+1389348788417	Rename method 'existProductInStock'
+1389349085103	Rename type 'Stock'
+1389358000667	Rename type 'CodIntMap'
+1389358017025	Rename type 'CodIntValue'
+1389358072222	Rename type 'CodValueModel'
+1389358581258	Rename type 'CodValueMapModel'
+1389378443104	Rename type 'Address'
+1389378455514	Rename type 'Client'
+1389378465577	Rename type 'CodValueMap'
+1389378475097	Rename type 'Employee'
+1389378487085	Rename type 'Order'
+1389378497184	Rename type 'OrderDetail'
+1389378506827	Rename type 'Product'
+1389378514055	Rename type 'ShoppingCart'
+1389378521638	Rename type 'Stock'
+1389378528636	Rename type 'User'
+1389379015165	Delete element

@@ -1,0 +1,18 @@
+package se.legarre.ecommerce.model;
+
+public final class DetailModel extends CodValueModel
+{
+	private int price;
+
+	public DetailModel(String cod, Integer value, Integer price)
+	{
+		super(cod, value);
+		this.price = price;
+	}
+	
+	public DetailModel(DetailModel other){
+		super(other);
+		this.price = other.price;
+	}
+
+}

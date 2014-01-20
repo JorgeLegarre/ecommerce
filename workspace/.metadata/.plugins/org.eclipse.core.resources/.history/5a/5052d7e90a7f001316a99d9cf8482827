@@ -1,0 +1,36 @@
+package se.legarre.ecommerce.service;
+
+import java.util.List;
+
+import se.legarre.ecommerce.model.UserModel;
+import se.legarre.ecommerce.repository.UserRepository;
+
+public class UserService
+{
+	private UserRepository userRepository;
+
+	public UserService(UserRepository userRepository)
+	{
+		this.userRepository = userRepository;
+	}
+
+	public UserModel storeUser(UserModel user)
+	{
+		return userRepository.storeUser(user);
+	}
+
+	public List<UserModel> getAllUsers()
+	{
+		return userRepository.getAllUsers();
+	}
+
+	public UserModel getUser(String username)
+	{
+		return userRepository.getUser(username);
+	}
+
+	public boolean removeUser(String username)
+	{
+		return userRepository.removeUser(username);
+	}
+}

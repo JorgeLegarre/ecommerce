@@ -1,0 +1,90 @@
+package se.legarre.ecommerce.repository.inMemoryImpl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import se.legarre.ecommerce.model.CategoryModel;
+import se.legarre.ecommerce.repository.CategoryRepository;
+
+public final class CategoryRepositoryInMemoryImpl implements CategoryRepository
+{
+	private static int idCounter = 1000;
+
+	private Map<String, CategoryModel> categories;
+
+	public CategoryRepositoryInMemoryImpl()
+	{
+		categories = new HashMap<String, CategoryModel>();
+	}
+
+	@Override
+	public CategoryModel saveCategory(CategoryModel category)
+	{
+		if (isNewCategory(category))
+		{
+			category = new CategoryModel(getNextId(), category);
+		}
+
+		categories.put(category.getId(), new CategoryModel(category));
+
+		return new CategoryModel(category);
+	}
+
+	@Override
+	public List<CategoryModel> getAllCategories()
+	{
+		List<CategoryModel> listCategories = new ArrayList<CategoryModel>();
+
+		for (CategoryModel category : categories.values())
+		{
+			listCategories.add(new CategoryModel(category));
+		}
+
+		return listCategories;
+	}
+
+	@Override
+	public CategoryModel getCategory(String categoryId)
+	{
+		CategoryModel category = categories.get(categoryId);
+
+		return (category == null) ? null : new CategoryModel(category);
+	}
+
+	@Override
+	public List<CategoryModel> searchCategoryByDesc(String categoryDesc)
+	{
+		if (categoryDesc == null) return null;
+
+		List<CategoryModel> returnCategories = new ArrayList<CategoryModel>();
+
+		for (CategoryModel category : categories.values())
+		{
+			if (categoryDesc.equals(category.getDesc()))
+			{
+				returnCategories.add(new CategoryModel(category));
+			}
+		}
+		return returnCategories;
+	}
+
+	@Override
+	public void removeCategory(String categoryId)
+	{
+		categories.remove(categoryId);
+	}
+
+	private String getNextId()
+	{
+		idCounter++;
+		return "C" + idCounter;
+	}
+
+	private boolean isNewCategory(CategoryModel category)
+	{
+		return CategoryModel.DEFAULT_ID.equals(category.getId());
+	}
+
+}

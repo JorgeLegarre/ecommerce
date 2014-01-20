@@ -1,0 +1,47 @@
+1389784499207	Rename package 'se.legarre.ecommerce.repository.implementation'
+1389784532414	Rename type 'InMemoryProductRepository'
+1389784541642	Rename type 'InMemoryStockRepository'
+1389784550584	Rename type 'InMemoryUserRepository'
+1389784602611	Rename type 'InMemoryProductRepositoryImpl'
+1389784617966	Rename type 'InMemoryStockRepositoryImpl'
+1389784632296	Rename type 'InMemoryUserRepositoryImpl'
+1389788853467	Delete element
+1389798096713	Delete element
+1389802062510	Rename field 'productId'
+1389887554853	Rename type 'Category'
+1389888031319	Rename method 'storeProduct'
+1389902939337	Delete element
+1389905613970	Rename type 'StockInMemoryImpl'
+1389905706015	Rename type 'StockRepository'
+1389906448745	Rename type 'WarehouseService'
+1389906473572	Rename type 'WarehouseInMemoryImpl'
+1389906493740	Rename type 'WarehouseRepository'
+1389913517645	Rename type 'Main'
+1389920029288	Delete element
+1389920258760	Rename type 'CodValueModel'
+1389920459630	Rename type 'DetailModel'
+1389920930440	Rename type 'DetailModel'
+1389921486942	Rename type 'OrderDetailModel'
+1389923415322	Rename package 'se.legarre.ecommerce.model'
+1389923431888	Rename package 'se.legarre.ecommerce.model.user'
+1389923473735	Move compilation units
+1389923506836	Move compilation units
+1389923543866	Move compilation unit
+1389923568054	Move compilation unit
+1389923581677	Move compilation units
+1389923594532	Move compilation units
+1389923605705	Delete elements
+1389924724131	Rename method 'getListProductsQuanties'
+1389925912401	Rename type 'CategoryInMemoryImpl'
+1389925925119	Rename type 'OrderInMemoryImpl'
+1389925949760	Rename type 'ProductInMemoryImpl'
+1389925961340	Rename type 'StoreInMemoryImpl'
+1389925971359	Rename type 'UserInMemoryImpl'
+1389951142958	Delete element
+1389951148402	Delete element
+1389983443980	Encapsulate field 'isAdmin'
+1389983459616	Encapsulate field 'isAdmin'
+1389986277474	Rename field 'orderId'
+1389987342059	Rename type 'CodValueModel'
+1389987390532	Rename method 'getCod'
+1389987409225	Rename method 'getValue'

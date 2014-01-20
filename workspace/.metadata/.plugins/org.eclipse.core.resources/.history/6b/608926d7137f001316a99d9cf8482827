@@ -1,0 +1,53 @@
+package se.legarre.ecommerce.model;
+
+public class CodValueModel
+{
+	private String cod;
+	private Integer quantity;
+
+	public CodValueModel(String cod, Integer value)
+	{
+		this.cod = cod;
+		this.quantity = value;
+	}
+
+	public CodValueModel(CodValueModel other)
+	{
+		this.cod = other.cod;
+		this.quantity = other.quantity;
+	}
+
+	public String getCod()
+	{
+		return cod;
+	}
+
+	public Integer getQuantity()
+	{
+		return quantity;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj) return true;
+		if (obj instanceof CodValueModel)
+		{
+			CodValueModel other = (CodValueModel) obj;
+			return this.cod.equals(other.cod) && (this.quantity == other.quantity);
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return 41 * this.cod.hashCode() * this.quantity;
+	}
+
+	@Override
+	public String toString()
+	{
+		return String.format("Cod: %s, Quantity: %s", cod, quantity);
+	}
+}

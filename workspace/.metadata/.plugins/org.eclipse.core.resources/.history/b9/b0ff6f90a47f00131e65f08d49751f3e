@@ -1,0 +1,110 @@
+package se.legarre.ecommerce.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public final class ClientModel extends UserModel
+{
+	private AddressModel deliveryAddress;
+	private AddressModel billingAddress;
+	private ShoppingCartModel shoppingCart;
+
+	public ClientModel(String username, String password, String name,
+			String lastName, String email, String telefon,
+			AddressModel deliveryAddress, AddressModel billingAddress)
+	{
+
+		super(username, password, name, lastName, email, telefon);
+
+		this.deliveryAddress = deliveryAddress;
+		this.billingAddress = billingAddress;
+
+		this.shoppingCart = new ShoppingCartModel();
+	}
+
+	public ClientModel(String username, String password, String name,
+			String lastName, String email, String telefon,
+			AddressModel deliveryAddress)
+	{
+		this(username, password, name, lastName, email, telefon, deliveryAddress, deliveryAddress);
+	}
+
+	public ClientModel(ClientModel other)
+	{
+		super(other);
+		this.deliveryAddress = new AddressModel(other.deliveryAddress);
+		this.billingAddress = new AddressModel(other.billingAddress);
+		this.shoppingCart = new ShoppingCartModel();
+
+		for (DetailModel detail : other.shoppingCart.getListDetails())
+		{
+			shoppingCart.addProductQuantity(detail.getProductId(), detail.getQuantity(), detail.getUnitPrice());
+		}
+	}
+
+	public AddressModel getDeliveryAddress()
+	{
+		return deliveryAddress;
+	}
+
+	public void setDeliveryAddress(AddressModel deliveryAddress)
+	{
+		this.deliveryAddress = deliveryAddress;
+	}
+
+	public AddressModel getBillingAddress()
+	{
+		return billingAddress;
+	}
+
+	public void setBillingAddress(AddressModel billingAddress)
+	{
+		this.billingAddress = billingAddress;
+	}
+
+	public boolean addProductToShoppingCart(String productId, int quantity, double price)
+	{
+		return shoppingCart.addProductQuantity(productId, quantity, price);
+	}
+
+	public boolean subtractProductToShoppingCart(String productId, int quantity)
+	{
+		return shoppingCart.subtractProductQuantity(productId, quantity);
+	}
+
+	public void removeProductFromShoppingCart(String productId)
+	{
+		shoppingCart.setProductQuantity(productId, 0, 0);
+	}
+
+	public int getProductQuantityFromShoppingCart(String productId)
+	{
+		return shoppingCart.getProductQuantity(productId);
+	}
+
+	public List<DetailModel> getListDetailsShoppingCart()
+	{
+		List<DetailModel> details = new ArrayList<DetailModel>();
+
+		for (DetailModel detail : shoppingCart.getListDetails())
+		{
+			details.add(new DetailModel(detail));
+		}
+
+		return details;
+	}
+
+	public void resetShoppingCart()
+	{
+		shoppingCart.reset();
+	}
+
+	@Override
+	public String toString()
+	{
+		return String
+				.format("%s, deliveryAddress: %s, billingAddress: %s, shoppingCart: %s",
+						super.toString(), deliveryAddress.toString(),
+						billingAddress.toString(), shoppingCart.toString());
+	}
+}

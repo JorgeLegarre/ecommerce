@@ -1,0 +1,13 @@
+package se.legarre.ecommerce.repository.inMemoryImpl;
+
+import se.legarre.ecommerce.repository.OrderRepository;
+
+public class OrderInMemoryImpl implements OrderRepository
+{
+	private static int orderIdCounter = 1000;
+
+	private String getNextOrderId(){
+		orderIdCounter++;
+		return "O" +orderIdCounter;
+	}
+}

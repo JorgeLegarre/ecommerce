@@ -1,0 +1,24 @@
+package se.legarre.ecommerce.model;
+
+public class CodValueModel {
+	private String cod;
+	private Integer value;
+
+	public CodValueModel(String cod, Integer value) {
+		this.cod = cod;
+		this.value = value;
+	}
+	
+	public CodValueModel(CodValueModel other){
+		this.cod = other.cod;
+		this.value = other.value;
+	}
+
+	public String getCod() {
+		return cod;
+	}
+
+	public Integer getValue() {
+		return value;
+	}
+}

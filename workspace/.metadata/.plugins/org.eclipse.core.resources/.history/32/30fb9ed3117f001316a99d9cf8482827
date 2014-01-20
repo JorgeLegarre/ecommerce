@@ -1,0 +1,42 @@
+package se.legarre.ecommerce.model;
+
+import se.legarre.ecommerce.model.ProductModel;
+
+public class OrderDetailModel
+{
+	private ProductModel product;
+	private int quantity;
+
+	public OrderDetailModel(ProductModel product, int quantity)
+	{
+		this.product = product;
+		this.quantity = quantity;
+	}
+
+	public ProductModel getProduct()
+	{
+		return product;
+	}
+
+	public int getQuantity()
+	{
+		return quantity;
+	}
+
+	public void setQuantity(int quantity)
+	{
+		this.quantity = quantity;
+	}
+
+	public double getSubtotal()
+	{
+		return product.getPrice() * quantity;
+	}
+
+	public int increaseQuantity(int quantityToIncrease)
+	{
+		this.quantity += quantityToIncrease;
+		return this.quantity;
+	}
+
+}

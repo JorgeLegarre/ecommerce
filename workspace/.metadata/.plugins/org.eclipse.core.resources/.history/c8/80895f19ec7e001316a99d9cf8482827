@@ -1,0 +1,20 @@
+package se.legarre.ecommerce.repository;
+
+import java.util.List;
+
+import se.legarre.ecommerce.model.ProductModel;
+
+public interface ProductRepository
+{
+
+	public ProductModel saveProduct(ProductModel product);
+
+	public List<ProductModel> getAllProducts();
+
+	public ProductModel getProduct(String productId);
+
+	List<ProductModel> searchProductByDesc(String productDesc);
+	
+	public boolean removeProduct(String productId);
+
+}

@@ -1,0 +1,70 @@
+package se.legarre.ecommerce.model;
+
+public final class ClientModel extends UserModel
+{
+	private AddressModel deliveryAddress;
+	private AddressModel billingAddress;
+	private ShoppingCartModel shoppingCart;
+
+	public ClientModel(String username, String password, String name,
+			String lastName, String email, String telefon,
+			AddressModel deliveryAddress, AddressModel billingAddress)
+	{
+
+		super(username, password, name, lastName, email, telefon);
+
+		this.deliveryAddress = deliveryAddress;
+		this.billingAddress = billingAddress;
+
+		this.shoppingCart = new ShoppingCartModel();
+	}
+
+	public AddressModel getDeliveryAddress()
+	{
+		return deliveryAddress;
+	}
+
+	public void setDeliveryAddress(AddressModel deliveryAddress)
+	{
+		this.deliveryAddress = deliveryAddress;
+	}
+
+	public AddressModel getBillingAddress()
+	{
+		return billingAddress;
+	}
+
+	public void setBillingAddress(AddressModel billingAddress)
+	{
+		this.billingAddress = billingAddress;
+	}
+
+	public void addProductToShoppingCart(ProductModel product, int quantity)
+	{
+		shoppingCart.addProductQuantity(product, quantity);
+	}
+
+	public int getProductQuantityFromShoppingCart(ProductModel product)
+	{
+		return shoppingCart.getProductQuantity(product);
+	}
+
+	public void resetShoppingCart()
+	{
+		shoppingCart.reset();
+	}
+
+	public void removeProductFromShoppingCart(ProductModel product)
+	{
+		shoppingCart.setProductQuantity(product, 0);
+	}
+
+	@Override
+	public String toString()
+	{
+		return String
+				.format("%s, deliveryAddress: %s, billingAddress: %s, shoppingCart: %s",
+						super.toString(), deliveryAddress.toString(),
+						billingAddress.toString(), shoppingCart.toString());
+	}
+}

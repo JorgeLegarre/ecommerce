@@ -1,0 +1,17 @@
+package se.legarre.ecommerce.utils;
+
+import java.util.Date;
+
+public class DateUtils
+{
+	public static String formatDate(long date)
+	{
+		// TODO
+		return "TODO";
+	}
+
+	public static long getCurrentDate()
+	{
+		return (new Date()).getTime();
+	}
+}
